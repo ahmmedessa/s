@@ -1,20 +1,25 @@
 const express = require('express');
-const http = require('http');
 const socketIo = require('socket.io');
-const platform = require('platform');
+const path = require('path');
 
 const app = express();
+const PORT = process.env.PORT || 4000;
 
-// قراءة الشهادات
+const server = app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});
 
-const server = http.createServer(app);
 const io = socketIo(server, {
   cors: {
     origin: '*',
     methods: ['GET', 'POST']
   }
 });
+
 const sessions = {};
+
+// Serve static files from the React app
+app.use(express.static(path.join(__dirname, '..', 'build')));
 
 io.on('connection', (socket) => {
   console.log(`A user connected ${socket.id}`);
@@ -54,8 +59,4 @@ io.on('connection', (socket) => {
       }
     }
   });
-});
-
-server.listen(4000, () => {
-  console.log('Server is running on port 4000');
 });
