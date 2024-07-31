@@ -5,9 +5,9 @@ const path = require('path');
 const app = express();
 const PORT = process.env.PORT || 4000;
 
-const server = app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
+// //const server = app.listen(PORT, () => {
+//   console.log(`Server is running on port ${PORT}`);
+// });
 
 const io = socketIo(server, {
   cors: {
@@ -59,4 +59,8 @@ io.on('connection', (socket) => {
       }
     }
   });
+  
+});
+server.listen(4000, () => {
+  console.log('Server is running on port 4000');
 });
